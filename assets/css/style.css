@@ -1,5 +1,5 @@
 html,body,h1,h2,h3,h4,h5,h6,div,p,blockquote,pre,code,address,ul,ol,li,nav,section,article,header,footer,main,aside,dl,dt,dd,table,thead,tbody,tfoot,label,caption,th,td,form,fieldset,legend,hr,input,button,textarea,object,figure,figcaption {margin:0; padding:0;}
 
-body {
-  background-color: #e3f2f3;
-}
+body { background-color: #e3f2f3; }
+
+.app { color: red; }

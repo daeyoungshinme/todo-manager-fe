@@ -1,90 +1,95 @@
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const getPath = pathDir => path.join(__dirname, pathDir);
 
-/*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
-After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
+module.exports = (_env, argv) => {
+  //arvs.mode 는 webpack.dev.config.js와 webpack.prov.config.js 로 나누었을 때 사용
+  //   const isProd = argv.mode === "production";
+  //   const isDev = !isProd;
+  const isProd = process.env.NODE_ENV === 'production';
+  const isDev = !isProd;
+  console.log(process.env.NODE_ENV);
 
-module.exports = {
-  /** "mode"
-   * the environment - development, production, none. tells webpack
-   * to use its built-in optimizations accordingly. default is production
-   */
-  mode: 'development',
-  /** "entry"
-   * the entry point
-   */
-  entry: './index.js',
-  output: {
-    /** "path"
-     * the folder path of the output file
-     */
-    path: path.resolve(__dirname, 'public'),
-    /** "filename"
-     * the name of the output file
-     */
-    filename: 'main.js',
-  },
-  /** "target"
-   * setting "node" as target app (server side), and setting it as "web" is
-   * for browser (client side). Default is "web"
-   */
-  target: 'web',
-  devServer: {
-    /** "port"
-     * port of dev server
-     */
-    port: '9500',
-    /** "static"
-     * This property tells Webpack what static file it should serve
-     */
-    static: ['./public'],
-    /** "open"
-     * opens the browser after server is successfully started
-     */
-    open: true,
-    /** "hot"
-     * enabling and disabling HMR. takes "true", "false" and "only".
-     * "only" is used if enable Hot Module Replacement without page
-     * refresh as a fallback in case of build failures
-     */
-    hot: true,
-    /** "liveReload"
-     * disable live reload on the browser. "hot" must be set to false for this to work
-     */
-    liveReload: true,
-  },
-  resolve: {
-    /** "extensions"
-     * If multiple files share the same name but have different extensions, webpack will
-     * resolve the one with the extension listed first in the array and skip the rest.
-     * This is what enables users to leave off the extension when importing
-     */
-    extensions: ['.js', '.jsx', '.json'],
-  },
-  module: {
-    /** "rules"
-     * This says - "Hey webpack compiler, when you come across a path that resolves to a '.js or .jsx'
-     * file inside of a require()/import statement, use the babel-loader to transform it before you
-     * add it to the bundle. And in this process, kindly make sure to exclude node_modules folder from
-     * being searched"
-     */
-    rules: [
-      {
-        test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
-        exclude: /node_modules/, //folder to be excluded
-        use: 'babel-loader', //loader which we are going to use
+  return {
+    // mode: "development",
+    target: 'web',
+    devtool: isDev && 'eval-cheap-module-source-map',
+    devServer: {
+      static: {
+        directory: getPath('assets'),
       },
-      {
-        test: /\.css$/i,
-        // use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
-        use: ['css-loader'],
+      port: 9000,
+      hot: true,
+      liveReload: false,
+      compress: true,
+      historyApiFallback: true,
+      open: true,
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+        },
       },
+    },
+    entry: {
+      main: './src/index.js',
+    },
+    output: {
+      path: getPath('dist'),
+      filename: 'assets/js/[name].[contenthash:8].js',
+      publicPath: '/',
+    },
+    resolve: {
+      extensions: ['.js', '.jsx', '.json'],
+      alias: {
+        // "@components": getPath("src/components/"),
+        // "@contexts": getPath("src/contexts/"),
+        // "@hooks": getPath("src/hooks/"),
+        // "@pages": getPath("src/pages/"),
+      },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              cacheCompression: false,
+            },
+          },
+        },
+        {
+          test: /\.css$/,
+          use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
+        },
+      ],
+    },
+    plugins: [
+      new webpack.EnvironmentPlugin({}),
+      new MiniCssExtractPlugin({
+        filename: 'assets/css/[name].[contenthash:8].css',
+        chunkFilename: 'assets/css/[name].[contetnhash:8].chunk.css',
+      }),
+      new HtmlWebpackPlugin({ template: getPath('assets/index.html') }),
+      new CleanWebpackPlugin({}),
+      //   new CleanWebpackPlugin({
+      //     // dry 기본 값: false
+      //     dry: true,
+      //     // verbose 기본 값: false
+      //     verbose: true,
+      //     // cleanOnceBeforeBuildPatterns 기본 값: ['**/*']
+      //     cleanOnceBeforeBuildPatterns: [
+      //       "**/*",
+      //       // build 폴더 안의 모든 것을 지우도록 설정
+      //       path.join(process.cwd(), "dist/**/*"),
+      //     ],
+      //   }),
     ],
-    // plugins: [
-    //   new MiniCssExtractPlugin({
-    //     filename: 'assets/css/[name].[contenthash:8].css',
-    //     chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
-    //   }),
-    // ],
-  },
+  };
 };

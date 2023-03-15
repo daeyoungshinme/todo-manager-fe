@@ -1,4 +1,12 @@
-Todo Manager_fe
+# Todo Manager_fe
+
+## 20230316 npm start 명령어 변경
+
+- web-dev-server 로 개발서버를 띄우면 webpack.config.js 내의 resolve.alias 가 적용이 안되는 이슈가 있어서 webpack serve로 명령어 변경
+
+---
+
+## versions
 
 node v18.15.0
 

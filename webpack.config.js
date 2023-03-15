@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const getPath = pathDir => path.join(__dirname, pathDir);
+const getPath = pathDir => path.resolve(__dirname, pathDir);
 
 module.exports = (_env, argv) => {
   //arvs.mode 는 webpack.dev.config.js와 webpack.prov.config.js 로 나누었을 때 사용
@@ -43,12 +43,13 @@ module.exports = (_env, argv) => {
       publicPath: '/',
     },
     resolve: {
-      extensions: ['.js', '.jsx', '.json'],
+      extensions: ['.js', '.jsx', '.json', '.css'],
       alias: {
-        // "@components": getPath("src/components/"),
+        '@css': getPath('src/css'),
+        '@components': getPath('src/components'),
         // "@contexts": getPath("src/contexts/"),
         // "@hooks": getPath("src/hooks/"),
-        // "@pages": getPath("src/pages/"),
+        '@pages': getPath('src/pages/'),
       },
     },
     module: {

@@ -1,5 +1,7 @@
 Todo Manager_fe
 
+node v18.15.0
+
 dependencies
 "react": "^18.2.0",
 "react-dom": "^18.2.0"

@@ -1,5 +1,25 @@
 html,body,h1,h2,h3,h4,h5,h6,div,p,blockquote,pre,code,address,ul,ol,li,nav,section,article,header,footer,main,aside,dl,dt,dd,table,thead,tbody,tfoot,label,caption,th,td,form,fieldset,legend,hr,input,button,textarea,object,figure,figcaption {margin:0; padding:0;}
 
-body { background-color: #e3f2f3; }
+html,body { height:100% }
+#container { height:100%; background: #E3F2F3; display: grid; 
+    grid-template-columns: 250px 5fr;
+    grid-template-rows: 50px 50px 1fr 50px 
+}
 
-.frame { color: red; }
+#container .nav { grid-row: 1/5; display: grid; grid-template-rows: 100px 1fr 50px; ;background: white; text-align: center;}
+#container .nav .logo { padding: 10px; font-size: 32px; }
+#container .nav .category {  }
+#container .nav .sign {  }
+
+#container .title { padding: 20px; font-size: 22px; }
+
+#container .content { grid-row: 2/4; display:grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 80px 1fr; margin: 15px; background: white; border-radius: 15px; }
+#container .content .top_info { grid-column: 1/4; margin: 15px 15px; border: 1px solid #000; border-width: 0 0 1px 0; text-align: right; }
+#container .content .work_area { grid-row: 2/4; display: flex; flex-direction: column; margin: 15px; background: #E3F2F3; border-radius: 15px; }
+#container .content .work_area .work_info { flex-grow: 0; display: flex; position: relative; justify-content: center;}
+#container .content .work_area .work_info button { position: absolute; top: 6px; right: 10px;}
+#container .content .work_area .list { overflow-y: scroll; flex-grow: 1;}
+#container .content .work_area .list .card { height: 60px; margin: 10px; padding: 10px; background: white; border-radius: 15px;}
+#container .content .work_area .list .card .top { display: grid; grid-template-columns: 50px 1fr 50px; }
+#container .content .work_area .list .card .top button { width: 30px;}
+.footer {}

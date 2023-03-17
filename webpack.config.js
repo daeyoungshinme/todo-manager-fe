@@ -49,7 +49,7 @@ module.exports = (_env, argv) => {
         '@components': getPath('src/components'),
         // "@contexts": getPath("src/contexts/"),
         // "@hooks": getPath("src/hooks/"),
-        '@pages': getPath('src/pages/'),
+        '@pages': getPath('src/pages'),
       },
     },
     module: {

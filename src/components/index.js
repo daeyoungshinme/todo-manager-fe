@@ -1,4 +1,4 @@
-import Frame from './Frame';
+import Frame from './frame';
 import Nav from './nav';
 import Title from './title';
 import Content from './content';

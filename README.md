@@ -95,7 +95,17 @@ todo-manager-fe
 
 ### 프로젝트 API 개발 가이드
 
+- components/ 추가
+  - components/[newComponent].js
+  - components/index.js 에 [newComponent].js 추가
+- pages/ 추가
+  - @components 의 컴포넌트들을 조립하여 페이지 구성
+- css/style.css
+
+  - 페이지 및 컴포넌트를 디자인
+
 - 추후 추가 구성
+  - TDD 구성
   - state 관리 모듈 사용
   - typescript 재구성
   - nextjs 재구성
